@@ -29,7 +29,8 @@ class ViewController: UIViewController {
         content.attachments = [attachment]
         
         // 3
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+     //   let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         let request = UNNotificationRequest(identifier: "notification.id.01", content: content, trigger: trigger)
         
         // 4
@@ -38,7 +39,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+       
+//        var myTimer = Timer()
+//        myTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: <#T##Selector#>, userInfo: nil, repeats: true)
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (success, error) in
                 if success {
