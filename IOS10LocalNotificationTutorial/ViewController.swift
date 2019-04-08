@@ -11,8 +11,14 @@ import UserNotifications
 
 class ViewController: UIViewController {
 
+    @IBAction func removeNotification(_ sender: Any) {
+      //  UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["notification.id.01"])
+        // ^ originally added above function to AppDelegate's "applicationWillTerminate()" but was not called. Why ???
+        
+    }
     @IBAction func sendNotification(_ sender: AnyObject) {
-        // 1
+        // 1 The UNMutableNOtificationContent object contains the data of the notification
         let content = UNMutableNotificationContent()
         content.title = "Notification Tutorial"
         content.subtitle = "from ioscreator.com"
@@ -20,7 +26,7 @@ class ViewController: UIViewController {
         //content.badge = 2
         //content.sound = UNNotificationSound.default()
         
-        // 2
+        // 2 The UNNotificationAttachment object contains the media content of the notification
         let imageName = "applelogo"
         guard let imageURL = Bundle.main.url(forResource: imageName, withExtension: "png") else { return }
         
@@ -28,12 +34,16 @@ class ViewController: UIViewController {
         
         content.attachments = [attachment]
         
-        // 3
+        // 3 create a trigger; specify the condition of delivery
+        // case 1: non-repeat trigger
      //   let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        // case 2: repeat trigger
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        
+        // 4 create a request with the trigger and the content
         let request = UNNotificationRequest(identifier: "notification.id.01", content: content, trigger: trigger)
         
-        // 4
+        // 5 schedule the request with the system
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
@@ -51,6 +61,8 @@ class ViewController: UIViewController {
                 }
             }
     }
+    
+    
     
 
     override func didReceiveMemoryWarning() {
