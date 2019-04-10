@@ -1,4 +1,4 @@
-//
+  //
 //  ViewController.swift
 //  IOS10LocalNotificationTutorial
 //
@@ -56,6 +56,13 @@ class ViewController: UIViewController {
         UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
         UNUserNotificationCenter.current().add(request3, withCompletionHandler: nil)
         UNUserNotificationCenter.current().add(request4, withCompletionHandler: nil)
+        
+        // TODO: use loop to deliver multiple notifications.
+        // TODO: use uuid to automatically generate identifier
+        // TODO: try out immediate fire trigger without timeInterval
+        // TODO: trigger notifications when data comes in and app in the background.
+        // TODO: try out notificaion category and notification action.
+        // TODO: Try out when receive notification in the foreground. use delegate.
     }
     
     override func viewDidLoad() {
