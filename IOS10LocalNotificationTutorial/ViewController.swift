@@ -102,8 +102,9 @@ class ViewController: UIViewController {
         // TODO: use uuid to automatically generate identifier
         // TODO: try out immediate fire trigger without timeInterval
         // TODO: trigger notifications when data comes in and app in the background.
-        
         // TODO: Try out when receive notification in the foreground. use delegate.
+        // TODO: scheduling timer to automatically send notifications and remove notifications
+        
     }
     
     override func viewDidLoad() {
