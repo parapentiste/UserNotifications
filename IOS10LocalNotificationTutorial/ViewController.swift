@@ -10,13 +10,76 @@ import UIKit
 import UserNotifications
 
 class ViewController: UIViewController {
-
+    
+    
+    var myTimer = Timer()
+    var counter = 60
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line)
+        
+        myTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        
+        //        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (success, error) in
+        //                if success {
+        //                    print("success")
+        //                } else {
+        //                    print("error")
+        //                }
+        //            }
+    }
+    
+    
+    @objc func updateTimer(){
+        print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line,"counter: \(counter)")
+        if counter > 0 {
+            counter = counter - 1
+            if counter == 55  {
+                sendAllNotifications()
+            } else if counter == 20 {
+                removeAllNotifications()
+            }
+            
+        } else {
+          //  counter = 60
+            myTimer.invalidate()
+        }
+        
+    }
+    
+    func removeAllNotifications() {
+        print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line)
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
+    }
+    
+    func sendAllNotifications() {
+        print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line)
+        for i in 1...60 {
+            //  print(i)
+            var content = UNMutableNotificationContent()
+            content.title = "Notification Tutorial"
+            content.subtitle = "from ioscreator.com"
+            content.body = " Notification triggered"+String(i)
+            
+            
+            var request = UNNotificationRequest(identifier: "note.id" + String(i), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
+            
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            
+        }
+        
+    }
+    
     @IBAction func removeNotification(_ sender: Any) {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
       //  UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["notification.id.01"])
         // ^ originally added above function to AppDelegate's "applicationWillTerminate()" but was not called. Why ???
         
     }
+    
+    
     @IBAction func sendNotification(_ sender: AnyObject) {
         
         /*  // Barebone version-----------------------------------
@@ -82,7 +145,7 @@ class ViewController: UIViewController {
         // TODO: use loop to deliver multiple notifications.
         
         for i in 1...60 {
-            print(i)
+           // print(i)
             var content = UNMutableNotificationContent()
             content.title = "Notification Tutorial"
             content.subtitle = "from ioscreator.com"
@@ -93,36 +156,25 @@ class ViewController: UIViewController {
             
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             
+            
+            
         }
-        
-        // loop version-------------------------------------------
 
+        // loop version-------------------------------------------
+        
+        
         
         
         // TODO: use uuid to automatically generate identifier
         // TODO: try out immediate fire trigger without timeInterval
         // TODO: trigger notifications when data comes in and app in the background.
         // TODO: Try out when receive notification in the foreground. use delegate.
-        // TODO: scheduling timer to automatically send notifications and remove notifications
+        // TODO: scheduling timer to automatically send notifications and remove notifications in the background
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-       
-//        var myTimer = Timer()
-//        myTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: <#T##Selector#>, userInfo: nil, repeats: true)
-        
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (success, error) in
-//                if success {
-//                    print("success")
-//                } else {
-//                    print("error")
-//                }
-//            }
-    }
+   
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
