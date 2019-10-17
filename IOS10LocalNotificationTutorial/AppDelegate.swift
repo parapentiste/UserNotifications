@@ -55,6 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
      //   scheduleNotifications()
+        
+        
     
         return true
     }

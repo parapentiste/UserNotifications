@@ -18,6 +18,9 @@ class ViewController: UIViewController {
         
     }
     @IBAction func sendNotification(_ sender: AnyObject) {
+        
+        /*  // Barebone version-----------------------------------
+
         // 1 The UNMutableNOtificationContent object contains the data of the notification
         let content = UNMutableNotificationContent()
         content.title = "Notification Tutorial"
@@ -25,7 +28,21 @@ class ViewController: UIViewController {
         content.body = " Notification triggered"
         //content.badge = 2
         //content.sound = UNNotificationSound.default()
-
+ 
+        
+   
+        //>-----------------------------------------------------------------------
+        // TODO: try out notificaion category and notification action.
+        // - Custom Actions
+        let snoozeAction = UNNotificationAction(identifier: "Snooze", title: "Snooze", options: [])
+        let cancelAction = UNNotificationAction(identifier: "Cancel", title: "Cancel", options: [])
+        let category = UNNotificationCategory(identifier: "SnoozeCategory", actions: [snoozeAction, cancelAction], intentIdentifiers: [], options: [])
+        
+        content.categoryIdentifier = "SnoozeCategory"
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        //<-------------------------------------------------------------------------
+ 
+   
         // 2 The UNNotificationAttachment object contains the media content of the notification
         let imageName = "applelogo"
         guard let imageURL = Bundle.main.url(forResource: imageName, withExtension: "png") else { return }
@@ -33,7 +50,10 @@ class ViewController: UIViewController {
         let attachment = try! UNNotificationAttachment(identifier: imageName, url: imageURL, options: .none)
 
         content.attachments = [attachment]
-
+        
+   
+        
+        // this is replaced with the loop
         // 3 create a trigger; specify the condition of delivery
         // case 1: non-repeat trigger
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
@@ -56,12 +76,33 @@ class ViewController: UIViewController {
         UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
         UNUserNotificationCenter.current().add(request3, withCompletionHandler: nil)
         UNUserNotificationCenter.current().add(request4, withCompletionHandler: nil)
+        */   // barebone version----------------------------------------
         
+        // loop version----------------------------------------------
         // TODO: use loop to deliver multiple notifications.
+        
+        for i in 1...60 {
+            print(i)
+            var content = UNMutableNotificationContent()
+            content.title = "Notification Tutorial"
+            content.subtitle = "from ioscreator.com"
+            content.body = " Notification triggered"+String(i)
+            
+            
+            var request = UNNotificationRequest(identifier: "note.id" + String(i), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
+            
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            
+        }
+        
+        // loop version-------------------------------------------
+
+        
+        
         // TODO: use uuid to automatically generate identifier
         // TODO: try out immediate fire trigger without timeInterval
         // TODO: trigger notifications when data comes in and app in the background.
-        // TODO: try out notificaion category and notification action.
+        
         // TODO: Try out when receive notification in the foreground. use delegate.
     }
     
