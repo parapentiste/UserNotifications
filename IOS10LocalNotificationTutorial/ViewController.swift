@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate{
     
     
     var myTimer = Timer()
@@ -19,7 +19,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line)
         
+        /* // with timer
         myTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        */
+        
         
         //        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (success, error) in
         //                if success {
@@ -28,9 +31,31 @@ class ViewController: UIViewController {
         //                    print("error")
         //                }
         //            }
+        
+        UNUserNotificationCenter.current().delegate = self
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        print("cliecks")
+        /*
+        switch response.actionIdentifier {
+        case "Snooze":
+             print("user clicks.")
+            
+        case "Cancel":
+             print("cancel")
+            
+        default:
+            print("unknown action")
+            
+        }
+   */
+        completionHandler()
+       
+    }
     
+    /*  // with timer
     @objc func updateTimer(){
         print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line,"counter: \(counter)")
         if counter > 0 {
@@ -63,7 +88,6 @@ class ViewController: UIViewController {
             content.subtitle = "from ioscreator.com"
             content.body = " Notification triggered"+String(i)
             
-            
             var request = UNNotificationRequest(identifier: "note.id" + String(i), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
             
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -71,7 +95,8 @@ class ViewController: UIViewController {
         }
         
     }
-    
+   
+   */
     @IBAction func removeNotification(_ sender: Any) {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
       //  UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["notification.id.01"])
@@ -150,6 +175,21 @@ class ViewController: UIViewController {
             content.title = "Notification Tutorial"
             content.subtitle = "from ioscreator.com"
             content.body = " Notification triggered"+String(i)
+            
+            
+            //>-----------------------------------------------------------------------
+            // TODO: try out notificaion category and notification action.
+            // - Custom Actions
+            let snoozeAction = UNNotificationAction(identifier: "Snooze", title: "Snooze", options: [])
+            let cancelAction = UNNotificationAction(identifier: "Cancel", title: "Cancel", options: [])
+            let category = UNNotificationCategory(identifier: "SnoozeCategory", actions: [snoozeAction, cancelAction], intentIdentifiers: [], options: [])
+            
+            content.categoryIdentifier = "SnoozeCategory"
+            UNUserNotificationCenter.current().setNotificationCategories([category])
+            //<-------------------------------------------------------------------------
+            
+            
+            
             
             
             var request = UNNotificationRequest(identifier: "note.id" + String(i), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
