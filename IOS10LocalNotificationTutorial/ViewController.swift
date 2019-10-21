@@ -37,7 +37,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        print("cliecks")
+        print("clicks")
         /*
         switch response.actionIdentifier {
         case "Snooze":
@@ -55,7 +55,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
        
     }
     
-    /*  // with timer
+     // with timer
     @objc func updateTimer(){
         print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line,"counter: \(counter)")
         if counter > 0 {
@@ -88,6 +88,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
             content.subtitle = "from ioscreator.com"
             content.body = " Notification triggered"+String(i)
             
+            
             var request = UNNotificationRequest(identifier: "note.id" + String(i), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
             
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -96,7 +97,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
         
     }
    
-   */
+   
     @IBAction func removeNotification(_ sender: Any) {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
       //  UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["notification.id.01"])
@@ -166,17 +167,18 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
         UNUserNotificationCenter.current().add(request4, withCompletionHandler: nil)
         */   // barebone version----------------------------------------
         
-        // loop version----------------------------------------------
-        // TODO: use loop to deliver multiple notifications.
         
+        // TODO: use loop to deliver multiple notifications.
+        // loop version----------------------------------------------
         for i in 1...60 {
            // print(i)
             var content = UNMutableNotificationContent()
             content.title = "Notification Tutorial"
             content.subtitle = "from ioscreator.com"
             content.body = " Notification triggered"+String(i)
+          //  content.sound = UNNotificationSound.default
             
-            
+            /*
             //>-----------------------------------------------------------------------
             // TODO: try out notificaion category and notification action.
             // - Custom Actions
@@ -187,26 +189,24 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
             content.categoryIdentifier = "SnoozeCategory"
             UNUserNotificationCenter.current().setNotificationCategories([category])
             //<-------------------------------------------------------------------------
-            
-            
-            
-            
+            */
             
             var request = UNNotificationRequest(identifier: "note.id" + String(i), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
             
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             
-            
-            
         }
-
         // loop version-------------------------------------------
         
         
         
         
         // TODO: use uuid to automatically generate identifier
+        
+        
         // TODO: try out immediate fire trigger without timeInterval
+        
+        
         // TODO: trigger notifications when data comes in and app in the background.
         // TODO: Try out when receive notification in the foreground. use delegate.
         // TODO: scheduling timer to automatically send notifications and remove notifications in the background
