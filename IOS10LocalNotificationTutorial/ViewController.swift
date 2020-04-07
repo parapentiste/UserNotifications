@@ -54,6 +54,44 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
         completionHandler()
        
     }
+    /*
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        print("clicks")
+        
+        
+        myTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateMyTimer), userInfo: nil, repeats: true)
+        
+        completionHandler()
+        
+    }
+    
+    @objc func updateMyTimer() {
+        
+        if myCounter > 0 {
+            print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line,"myCounter: \(myCounter)")
+            if myCounter == 20 {
+                removeAllNotifications()
+            }
+            
+            if myCounter == 1 {
+                sendAllNotifications()
+            }
+            myCounter = myCounter - 1
+            
+        } else {
+            print(URL(fileURLWithPath: #file).lastPathComponent,#function,#line,"myCounter: \(myCounter)")
+            myCounter = 20
+            myTimer.invalidate()
+            
+        }
+    }
+    
+    */
+    
+    
+    
+    
     
      // with timer
     @objc func updateTimer(){
@@ -171,12 +209,21 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
         // TODO: use loop to deliver multiple notifications.
         // loop version----------------------------------------------
         for i in 1...60 {
-           // print(i)
+            
+          //  let timestampID = NSDate().timeIntervalSince1970
+          //  let decodedTime = NSDate(timeIntervalSince1970: TimeInterval(timestampID))
+            
+            let timestampID = NSDate().timeIntervalSince1970 + Double(i * 5)
+            let theDouble :Double = 600.0
+            var snooze: Double = timestampID + theDouble
+            print("timestampID: \(timestampID), snooze: \(snooze)")
+            
             var content = UNMutableNotificationContent()
             content.title = "Notification Tutorial"
             content.subtitle = "from ioscreator.com"
-            content.body = " Notification triggered"+String(i)
+            content.body = " Notification triggered"+String(timestampID)
           //  content.sound = UNNotificationSound.default
+            
             
             /*
             //>-----------------------------------------------------------------------
@@ -191,7 +238,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
             //<-------------------------------------------------------------------------
             */
             
-            var request = UNNotificationRequest(identifier: "note.id" + String(i), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
+            var request = UNNotificationRequest(identifier: "note.id" + String(timestampID), content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5 * i), repeats: false))
             
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             
@@ -200,9 +247,9 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
         
         
         
-        
-        // TODO: use uuid to automatically generate identifier
-        
+        // TODO: try out notificaion category and notification action.
+        // TODO: use loop to deliver multiple notifications.
+        // TODO: use uuid to automatically generate identifier.(or use TimeStampe,etc. )
         
         // TODO: try out immediate fire trigger without timeInterval
         
